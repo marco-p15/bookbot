@@ -1,8 +1,7 @@
 def main():
     with open ("books/frankenstein.txt") as f:
         file_contents = f.read()
-        words(file_contents)
-        characters(file_contents)
+        print_all(file_contents)
 
 def words(file_contents):
     w = 0
@@ -12,7 +11,7 @@ def words(file_contents):
     for word in file_words:
         w+=1
 
-    print(f"Words: {w}")
+    return w
 
 def characters(file_contents):
     low_f_contents = file_contents.lower()
@@ -20,10 +19,24 @@ def characters(file_contents):
     chars = {}
 
     for word in low_f_contents:
-        if word not in chars:
-           chars[word] = 0
-        chars[word] += 1
+        if word.isalpha():
+            if word not in chars:
+               chars[word] = 0
+            chars[word] += 1
 
-    print(f"Characters: {chars}")
+    list_chars = list(chars.items())
+    list_chars.sort(reverse=True, key=lambda x: x[1])        
+
+    for key, value in list_chars:
+        print(f"The {key} character was found {value} times")
+    
+    return chars
+
+def print_all(file_contents):
+    print("--- Begin report of books/frankenstein.txt ---")
+    print(f"{words(file_contents)} words found in the document")
+    print("")
+    characters(file_contents)
+    print("--- End report---")  
 
 main()
